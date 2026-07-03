@@ -1,1 +1,2 @@
+Перед запуском в PowerShell для использования оригинального curl Remove-Item -Path Alias:curl
 curl -X POST -T vgsales.csv localhost:5000/uploads

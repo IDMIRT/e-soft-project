@@ -1,16 +1,35 @@
-{
-    // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
-    // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
-    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
+// {
+//     // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+//     // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+//     // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+//     "version": "0.2.0",
+//     "configurations": [
     
-        {
-            "name": "Отладчик Python: Текущий файл",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        }
-    ]
+//         {
+//             "name": "Отладчик Python: Текущий файл",
+//             "type": "debugpy",
+//             "request": "launch",
+//             "program": "${file}",
+//             "console": "integratedTerminal"
+//         }
+//     ]
+// }
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Flask",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask", // Указываем модуль Flask
+      "env": {
+        "FLASK_APP": "api.py", // Путь к вашему файлу приложения
+        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1"
+      },
+      "args": ["run", "--no-debugger", "--no-reload"], // Отключаем встроенный отладчик Flask и перезагрузку
+      "justMyCode": true // Отладчик будет останавливаться только в вашем коде, а не в библиотеках
+    }
+  ]
 }

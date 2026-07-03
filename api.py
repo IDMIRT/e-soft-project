@@ -12,7 +12,8 @@ def start_page():
 
 @app.route("/uploads/",methods = ['POST'])
 def uploads_file():
-    
+    with open('/uploads/output.txt', 'w') as file:
+            file.write("Это первая строка")
     try:
         file = request.files['file']
 
@@ -39,4 +40,4 @@ def stats():
 def clean():
     pass
     
-app.run(debug=True)
+app.run()
