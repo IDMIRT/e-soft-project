@@ -1,6 +1,9 @@
 from flask import Flask,request
 from os import path
 
+APP_FOLDER = path.dirname(__file__)
+# UPLOADS_FOLDER = path.join(path.dirname(__file__), 'uploads')
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -15,9 +18,10 @@ def uploads_file():
 
         if file:
             # file.save('/uploads/'+file.filename)
-            file.save('/uploads/testfile.csv')
-            with open('/uploads/output.txt', 'w') as file:
-                file.write("Это первая строка")
+            file_path = path.join(APP_FOLDER, 'uploads', file.filename)
+            file.save(file_path)
+            # with open('/uploads/output.txt', 'w') as file:
+                # file.write("Это первая строка")
         else:
             raise FileExistsError('Ошибка, не передан файл')    
     except:
