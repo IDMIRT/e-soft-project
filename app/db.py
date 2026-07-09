@@ -13,8 +13,12 @@ Session = sessionmaker(bind=engine)
 def create_tables():
     Base.metadata.create_all(bind=engine)
 
-def insert_record(data):
-    pass
+def insert_record(data:dict,table_class):
+    new_record = table_class(**data)
+    session = Session()
+    session.add(new_record)    
+    session.commit()
+    return new_record.id
 
 def list_records(table_name, limit=None):
     pass

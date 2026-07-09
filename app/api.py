@@ -1,9 +1,14 @@
 from os import path
 from flask import request, jsonify
 import pandas as pd
+from models import UploadedFiles,ResultAnalysis
+from db import insert_record
+# from datetime import datetime
+
 
 APP_FOLDER = path.dirname(__file__)
 UPLOADS_FOLDER = path.join(APP_FOLDER, 'uploads')
+
 
 # def start_page():
 #     return 'Стартовая страницы'
@@ -36,6 +41,9 @@ def uploads_file():
             else: 
                 return f"Неизвестный тип файла, используйте csv, xls или xlsx"
             
+            data_uploads = {'path':UPLOADS_FOLDER,'file':file.filename}
+            id_record = insert_record(data_uploads,UploadedFiles)
+
         if dt.empty == False:
             mean = dt.mean(numeric_only=True).to_dict()
             median = dt.median(numeric_only=True).to_dict()
