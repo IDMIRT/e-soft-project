@@ -14,8 +14,8 @@ except Exception as ex:
 
 if not(errors):
     app = Flask(__name__)
-    app.add_url_rule('/','start',start_page)
-    app.add_url_rule('/page/<int:number_page>','number_page',test_page_number)
+    # app.add_url_rule('/','start',start_page)
+    # app.add_url_rule('/page/<int:number_page>','number_page',test_page_number)
 
 
 

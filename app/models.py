@@ -1,9 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime,ForeignKey,Float
 from sqlalchemy.orm import declarative_base
-# from flask_sqlalchemy import SQLAlchemy
-
-Base = declarative_base()
-# db = SQLAlchemy()
+from db import Base
 
 class UploadedFiles(Base):
     __tablename__= 'uploaded_files'

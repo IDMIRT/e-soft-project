@@ -17,7 +17,7 @@ def uploads_file():
    
     try:
         if 'file' not in request.files:
-            return jsonify({'error':"No File Part"}),401
+            return jsonify({'error':"Нет файла"}),401
         
 
         file = request.files['file']
@@ -41,6 +41,7 @@ def uploads_file():
             median = dt.median(numeric_only=True).to_dict()
             correlation = dt.corr(numeric_only=True).to_dict()
 
+            
 
     except:
         return "Ошибка загрузки файла",400  
