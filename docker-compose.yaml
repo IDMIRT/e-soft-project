@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:17
+    container_name: esoft
+    environment:
+      POSTGRES_PASSWORD: 7486250
+      POSTGRES_DB: esoft
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+volumes:
+  pg_data:
+    

@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine,select
 from sqlalchemy.orm import sessionmaker, declarative_base
+# from app.models import UploadedFiles,ResultAnalysis
 # from config import DATABASE_URL
 
 # DATABASE_URL = "postgresql://user:password@localhost:5432/mydatabase"
@@ -22,7 +23,22 @@ def insert_record(data:dict,table_class,return_id=True):
     if return_id:
         return new_record.id
     
+
+def view_result_analysis(id:int,table_class):
     
+    try:
+        session = Session()
+        result = session.execute(select(table_class).where(table_class.fileload_id==id)) 
+
+        record = result.first()[0]
+        if record is not None:
+            return {'mean':record.mean,'median':record.median,'correlation':record.correlation}
+        else:
+            return None
+    finally:
+        session.close()
+
+
 
 def list_records(table_name, limit=None):
     pass

@@ -2,7 +2,7 @@ from os import path
 from flask import request, jsonify
 import pandas as pd
 from app.models import UploadedFiles,ResultAnalysis
-from app.db import insert_record
+from app.db import insert_record,view_result_analysis
 
 APP_FOLDER = path.dirname(__file__).split('\\')[:-1]
 UPLOADS_FOLDER = '\\'.join([*APP_FOLDER,'uploads'])
@@ -23,7 +23,7 @@ def uploads_file():
             file_path = path.join(UPLOADS_FOLDER, file.filename)
             file.save(file_path)
         else:
-            raise FileExistsError('Ошибка, не передан файл') 
+            raise FileExistsError('Ошибка, не передан файл')
 
         if file_path:
             if file_path.endswith('.csv'):
@@ -48,16 +48,28 @@ def uploads_file():
             insert_record(upload_analisis,ResultAnalysis,False)            
 
     except:
-        return "Ошибка загрузки файла",400  
+        return "Ошибка загрузки файла",500  
 
 
-    return f"Загрузка {file.filename} завершена",201
+    return f"Загрузка {file.filename} завершена",200
     
 
 
-def stats():
-    return f"Статистика"
+def stats(id):
+    result_stats = view_result_analysis(id,ResultAnalysis) 
+
+    if result_stats is not None:
+        return jsonify({
+        'mean': result_stats['mean'],
+        'median': result_stats['median'],
+        'correlation': result_stats['correlation']
+    }), 200 
+    else:
+        return f"Данные не найдены",500
 
 
 def clean():
     return f"Очистка"
+
+# def test_page_number(id:int):
+#     return f"Страница номер {id}"

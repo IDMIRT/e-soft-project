@@ -8,4 +8,4 @@ docker run --rm --name esoft \
   -v pg_data:/var/lib/postgresql/data \
   -d postgres:17 - запуск контейнера с привязкой с тому
 
-  docker run --rm --name esoft -e POSTGRES_PASSWORD=7486250 -p 5432:5432 -v pg_data:/var/lib/postgresql -d postgres:18
+  docker run --rm --name esoft -e POSTGRES_PASSWORD=7486250 -e POSTGRES_DB=esoft -p 5432:5432 -v pg_data:/var/lib/postgresql -d postgres:18
