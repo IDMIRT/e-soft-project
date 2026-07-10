@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime,ForeignKey,Float
-from sqlalchemy.orm import declarative_base
-from db import Base
+from sqlalchemy import Column, Integer, String, Text, DateTime,ForeignKey,Float,JSON
+# from sqlalchemy.orm import declarative_base
+from app.db import Base
 from datetime import datetime
 
 class UploadedFiles(Base):
@@ -12,13 +12,12 @@ class UploadedFiles(Base):
     # filedata = Column(Text())
 
 class ResultAnalysis(Base):
-    _tablename_='result_analysis'
+    __tablename__='result_analysis'
     id = Column(Integer,primary_key=True)
-    fileload_id=Column(ForeignKey('uploaded_files.id')) 
-    ColumnName = Column(String())
-    ColumnMean = Column(Float())
-    ColumnMedian = Column(Float())
-    ColumnCorrelation = Column(Float())
+    fileload_id=Column(ForeignKey('uploaded_files.id'))     
+    mean = Column(JSON)
+    median = Column(JSON)
+    correlation = Column(JSON)
 
 
 

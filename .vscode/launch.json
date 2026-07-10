@@ -24,7 +24,7 @@
       "request": "launch",
       "module": "flask", // Указываем модуль Flask
       "env": {
-        "FLASK_APP": "api.py", // Путь к вашему файлу приложения
+        "FLASK_APP": "run.py", // Путь к вашему файлу приложения
         "FLASK_ENV": "development",
         "FLASK_DEBUG": "1"
       },
