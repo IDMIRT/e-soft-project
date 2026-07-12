@@ -1,6 +1,6 @@
 from app.db import engine, create_tables
 from flask import Flask
-from app.api import uploads_file,stats
+from app.api import uploads_file,stats,clean
 from os import path
 from pathlib import Path
 
@@ -26,5 +26,6 @@ if not(errors):
     app = Flask(__name__)
     app.add_url_rule('/upload','upload',uploads_file,methods = ['POST','GET'])
     app.add_url_rule('/stats/<int:id>','stats',stats)
-    # app.add_url_rule('/page/<int:number_page>','number_page',test_page_number)
+    app.add_url_rule('/clean','clean',clean)
+    
     app.run(debug=False)

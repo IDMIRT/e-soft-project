@@ -39,8 +39,17 @@ def view_result_analysis(id:int,table_class):
         session.close()
 
 
+def view_record_loadfiles(id:int, table_class):
+    try:
+        session = Session()
+        result = session.execute(select(table_class).where(table_class.id==id)) 
 
-def list_records(table_name, limit=None):
-    pass
+        record = result.first()[0]
+        if record is not None:
+            return {'path':record.mean,'filename':record.filename}
+        else:
+            return None
+    finally:
+        session.close()
 
 
