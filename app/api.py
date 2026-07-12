@@ -107,14 +107,5 @@ def clean(id):
 
 
 
-        # if file.endswith('.csv'):
-        #     dt = pd.read_csv(file)
-        # elif file.endswith((".xls",".xlsx")):  
-        #     dt = pd.read_excel(file)
-        # else:
-        #     return f"Неизвестный тип файла, используйте csv, xls или xlsx"
-
-
-
-# def test_page_number(id:int):
-#     return f"Страница номер {id}"
+def plot():
+    pass
