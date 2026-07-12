@@ -50,7 +50,7 @@ def uploads_file():
                 data_uploads = {'path':UPLOADS_FOLDER,'filename':file.filename}
                 id_record = insert_record(data_uploads,UploadedFiles,True)
             except Exception as e :
-                return f"Ошибка при загрузке в БД",500
+                return f"Ошибка при загрузке в БД",506
 
         if dt.empty == False:
             mean = dt.mean(numeric_only=True).to_dict()
@@ -61,7 +61,7 @@ def uploads_file():
             insert_record(upload_analisis,ResultAnalysis,False)            
 
     except:
-        return jsonify({'message':"Ошибка загрузки файла"}),500  
+        return jsonify({'message':"Ошибка загрузки файла"}),507  
 
 
     return jsonify({'message':"Загрузка {file.filename} завершена"}),200   
@@ -103,7 +103,7 @@ def clean(id):
     if Cleaned == True:
         return jsonify({'message': 'Очистка данных завершена'}), 201
     else:
-        return jsonify({'message':'Ошибка при очистке'})
+        return jsonify({'message':'Ошибка при очистке'}),505
 
 
 
