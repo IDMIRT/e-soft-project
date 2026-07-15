@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine,select
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL =  "postgresql://postgres:7486250@localhost:5432/esoft"
+DATABASE_URL =  "postgresql://postgres:your_password@localhost:5432/esoft"
 
 engine = create_engine(DATABASE_URL)
 

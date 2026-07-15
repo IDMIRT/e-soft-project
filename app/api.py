@@ -14,7 +14,7 @@ file_path = None
 def load_file_pandas(file_path):
     if file_path.endswith('.csv'):
         dt = pd.read_csv(file_path)
-    elif file_path.endswith(".xlsx") or ".xls": 
+    elif file_path.endswith(".xlsx") or file_path.endswith(".xls") : 
         dt = pd.read_excel(file_path)
     else: 
         dt = None        
