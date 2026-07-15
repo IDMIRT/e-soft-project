@@ -1,8 +1,10 @@
 from os import path
-from flask import request, jsonify
+from flask import request, jsonify,send_file
 import pandas as pd
 from app.models import UploadedFiles,ResultAnalysis
 from app.db import insert_record,view_result_analysis,view_record_loadfiles
+import matplotlib
+import matplotlib.pyplot as plt
 
 APP_FOLDER = path.dirname(__file__).split('\\')[:-1]
 UPLOADS_FOLDER = '\\'.join([*APP_FOLDER,'uploads'])
@@ -15,8 +17,7 @@ def load_file_pandas(file_path):
     elif file_path.endswith(".xlsx") or ".xls": 
         dt = pd.read_excel(file_path)
     else: 
-        dt = None
-        # return f"Неизвестный тип файла, используйте csv, xls или xlsx"    
+        dt = None        
     return dt
 
 
@@ -38,13 +39,7 @@ def uploads_file():
         if file_path:
             dt = load_file_pandas(file_path) 
             if dt is None:
-                return f"Неподдерживаемый тип файла, используйте файлы с расширением csv, xls или xlsx",415
-            # if file_path.endswith('.csv'):
-            #     dt = pd.read_csv(file_path)
-            # elif file_path.endswith(".xlsx") or ".xls": 
-            #     dt = pd.read_excel(file_path)
-            # else: 
-            #     return f"Неизвестный тип файла, используйте csv, xls или xlsx"
+                return f"Неподдерживаемый тип файла, используйте файлы с расширением csv, xls или xlsx",415            
             
             try:
                 data_uploads = {'path':UPLOADS_FOLDER,'filename':file.filename}
@@ -80,32 +75,69 @@ def stats(id):
         'correlation': result_stats['correlation']
     }), 200 
     else:
-        return jsonify({'message':"Данные не найдены"}),500
+        return jsonify({'message':"Данные не найдены"}),404
 
 
 def clean(id):
     Cleaned = False
+    data = view_record_loadfiles(id,UploadedFiles)
+    
+    if data is not None:
+        file = path.join(data['path'], data['filename'])
+    else:
+        return jsonify({'message':"Данные не найдены"}),404
+    
+    try:
+        if path.isfile(file):
+
+            dt = load_file_pandas(file)
+            if dt is not None:
+
+                dt.drop_duplicates(inplace=True)
+                dt.fillna(0, inplace=True)
+                Cleaned = True
+
+                if file.endswith('.csv'):  
+                    dt.to_csv(file,index=False)
+                else:
+                    dt.to_excel(file.xlsx,index=False)
+
+        if Cleaned == True:
+            return jsonify({'message': 'Очистка данных завершена'}), 201
+        else:
+            return jsonify({'message':'Ошибка при очистке'}),505
+        
+    except Exception as e:
+        return jsonify({'Ошибка': str(e)}), 400
+
+
+def plot(id:int):
+    matplotlib.use('Agg')
     data = view_record_loadfiles(id,UploadedFiles) 
+
     if data is not None:
         file = path.join(data['path'], data['filename']) 
-
-    if path.isfile(file):
-        dt = load_file_pandas(file)
-        if dt is not None:
-            dt.drop_duplicates(inplace=True)
-            dt.fillna(0, inplace=True)
-            Cleaned = True
-            if file.endswith('.csv'):  
-                dt.to_csv(file,index=False)
-            else:
-                dt.to_excel(file.xlsx,index=False)
-
-    if Cleaned == True:
-        return jsonify({'message': 'Очистка данных завершена'}), 201
     else:
-        return jsonify({'message':'Ошибка при очистке'}),505
+        return jsonify({'message':"Данные не найдены"}),404
+    
+    try:
+        if path.isfile(file):
 
+            dt = load_file_pandas(file)
 
+            if dt is not None:
+                plt.figure(figsize=(10, 6))
+                dt.plot()
+                path_save = path.join(UPLOADS_FOLDER, f"plot_{id}.png")
+                plt.savefig(path_save)
+                plt.close()  
 
-def plot():
-    pass
+        
+
+        return send_file(path_save, mimetype='image/png')
+
+    except Exception as e:
+        return jsonify({'Ошибка': str(e)}), 400
+    
+    
+    
