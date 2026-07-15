@@ -25,7 +25,7 @@ def uploads_file():
    
     try:
         if 'file' not in request.files:
-            return jsonify({'error':"Нет файла"}),401
+            return jsonify({'error':f"Нет файла"}),401
         
 
         file = request.files['file']
@@ -56,10 +56,10 @@ def uploads_file():
             insert_record(upload_analisis,ResultAnalysis,False)            
 
     except:
-        return jsonify({'message':"Ошибка загрузки файла"}),507  
+        return jsonify({'message':f"Ошибка загрузки файла"}),507  
 
 
-    return jsonify({'message':"Загрузка {file.filename} завершена"}),200   
+    return jsonify({'message':f"Загрузка {file.filename} завершена"}),200   
     
 
 
@@ -75,7 +75,7 @@ def stats(id):
         'correlation': result_stats['correlation']
     }), 200 
     else:
-        return jsonify({'message':"Данные не найдены"}),404
+        return jsonify({'message':f"Данные не найдены"}),404
 
 
 def clean(id):
@@ -85,7 +85,7 @@ def clean(id):
     if data is not None:
         file = path.join(data['path'], data['filename'])
     else:
-        return jsonify({'message':"Данные не найдены"}),404
+        return jsonify({'message':f"Данные не найдены"}),404
     
     try:
         if path.isfile(file):
@@ -103,12 +103,12 @@ def clean(id):
                     dt.to_excel(file.xlsx,index=False)
 
         if Cleaned == True:
-            return jsonify({'message': 'Очистка данных завершена'}), 201
+            return jsonify({'message':f'Очистка данных завершена'}), 201
         else:
-            return jsonify({'message':'Ошибка при очистке'}),505
+            return jsonify({'message':f'Ошибка при очистке'}),505
         
     except Exception as e:
-        return jsonify({'Ошибка': str(e)}), 400
+        return jsonify({f'Ошибка': str(e)}), 400
 
 
 def plot(id:int):
@@ -118,7 +118,7 @@ def plot(id:int):
     if data is not None:
         file = path.join(data['path'], data['filename']) 
     else:
-        return jsonify({'message':"Данные не найдены"}),404
+        return jsonify({'message':f"Данные не найдены"}),404
     
     try:
         if path.isfile(file):
@@ -137,7 +137,7 @@ def plot(id:int):
         return send_file(path_save, mimetype='image/png')
 
     except Exception as e:
-        return jsonify({'Ошибка': str(e)}), 400
+        return jsonify({f'Ошибка': str(e)}), 400
     
     
     

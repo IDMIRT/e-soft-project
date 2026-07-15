@@ -1,9 +1,6 @@
 from sqlalchemy import create_engine,select
 from sqlalchemy.orm import sessionmaker, declarative_base
-# from app.models import UploadedFiles,ResultAnalysis
-# from config import DATABASE_URL
 
-# DATABASE_URL = "postgresql://user:password@localhost:5432/mydatabase"
 DATABASE_URL =  "postgresql://postgres:7486250@localhost:5432/esoft"
 
 engine = create_engine(DATABASE_URL)
@@ -46,7 +43,7 @@ def view_record_loadfiles(id:int, table_class):
 
         record = result.first()[0]
         if record is not None:
-            return {'path':record.mean,'filename':record.filename}
+            return {'path':record.path,'filename':record.filename}
         else:
             return None
     finally:

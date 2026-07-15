@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime,ForeignKey,Float,JSON
-# from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime,ForeignKey,Float,JSON
 from app.db import Base
 from datetime import datetime
 
@@ -9,7 +8,7 @@ class UploadedFiles(Base):
     data_load = Column(DateTime,default=datetime.now)
     path = Column(String(256))
     filename = Column(String())
-    # filedata = Column(Text())
+    
 
 class ResultAnalysis(Base):
     __tablename__='result_analysis'

@@ -1,6 +1,6 @@
 from app.db import engine, create_tables
 from flask import Flask
-from app.api import uploads_file,stats,clean
+from app.api import uploads_file,stats,clean,plot
 from os import path
 from pathlib import Path
 
@@ -22,10 +22,12 @@ except Exception as ex:
     errors=True
     print(f"Ошибка подключения к БД")
 
-if not(errors):
+if not errors:
     app = Flask(__name__)
+    app.config['JSON_AS_ASCII'] = False
     app.add_url_rule('/upload','upload',uploads_file,methods = ['POST','GET'])
     app.add_url_rule('/stats/<int:id>','stats',stats)
-    app.add_url_rule('/clean','clean',clean)
+    app.add_url_rule('/clean/<int:id>','clean',clean)
+    app.add_url_rule('/plot/<int:id>','plot',plot)
     
     app.run(debug=False)
