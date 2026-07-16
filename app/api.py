@@ -4,6 +4,7 @@ import pandas as pd
 from app.models import UploadedFiles,ResultAnalysis
 from app.db import insert_record,view_result_analysis,view_record_loadfiles
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 APP_FOLDER = path.dirname(__file__).split('\\')[:-1]
@@ -14,7 +15,7 @@ file_path = None
 def load_file_pandas(file_path):
     if file_path.endswith('.csv'):
         dt = pd.read_csv(file_path)
-    elif file_path.endswith(".xlsx") or file_path.endswith(".xls") : 
+    elif file_path.endswith(".xlsx",".xls"): 
         dt = pd.read_excel(file_path)
     else: 
         dt = None        
@@ -100,7 +101,7 @@ def clean(id):
                 if file.endswith('.csv'):  
                     dt.to_csv(file,index=False)
                 else:
-                    dt.to_excel(file.xlsx,index=False)
+                    dt.to_excel(file,index=False)
 
         if Cleaned == True:
             return jsonify({'message':f'Очистка данных завершена'}), 201
@@ -111,8 +112,7 @@ def clean(id):
         return jsonify({f'Ошибка': str(e)}), 400
 
 
-def plot(id:int):
-    matplotlib.use('Agg')
+def plot(id:int):    
     data = view_record_loadfiles(id,UploadedFiles) 
 
     if data is not None:

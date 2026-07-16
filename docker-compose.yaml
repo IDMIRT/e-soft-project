@@ -4,7 +4,7 @@ services:
     image: postgres:17
     container_name: esoft
     environment:
-      POSTGRES_PASSWORD: 7486250
+      POSTGRES_PASSWORD: your_password
       POSTGRES_DB: esoft
       POSTGRES_USER: postgres
     ports:
