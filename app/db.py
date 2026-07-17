@@ -27,8 +27,9 @@ def view_result_analysis(id:int,table_class):
         session = Session()
         result = session.execute(select(table_class).where(table_class.fileload_id==id)) 
 
-        record = result.first()[0]
-        if record is not None:
+        
+        if result.first() is not None:   
+            record = result.first()         
             return {'mean':record.mean,'median':record.median,'correlation':record.correlation}
         else:
             return None
@@ -41,8 +42,9 @@ def view_record_loadfiles(id:int, table_class):
         session = Session()
         result = session.execute(select(table_class).where(table_class.id==id)) 
 
-        record = result.first()[0]
-        if record is not None:
+        
+        if result.first() is not None:
+            record = result.first()
             return {'path':record.path,'filename':record.filename}
         else:
             return None
